@@ -36,15 +36,15 @@ control = Control()
 joint_list = [LoneJoint() for i in range (5)] # We will only need informations about 4 joints : r_th_adduction, r_th_flexion, r_ix_flexion, r_middle_flexion, r_ring_ltr_flexion
 
 # Initialize variables and structures to send messages
-names_step_1            = ['r_th_adduction','r_ix_flexion','r_middle_flexion','r_ring_ltl_flexion']                # Name of the joints we want to move first
+names_step_1            = ['l_th_adduction','l_ix_flexion','l_middle_flexion','l_ring_ltl_flexion']                # Name of the joints we want to move first
 target_positions_step_1 = [4095, 4095, 4095, 4095]                                                    # Maximum position value : closed position
 target_speeds_step_1    = [0, 100, 100, 100]                                                           # Speed 0 : Highest speed. Speed 50 : Low speed
 
-names_step_2            = ['r_th_flexion']                                                      # Name of the joint to move on the 2nd step of the hand closing
+names_step_2            = ['l_th_flexion']                                                      # Name of the joint to move on the 2nd step of the hand closing
 target_positions_step_2 = [4095]                                                                # Maximum position value : closed position
 target_speeds_step_2    = [50]                                                                  # Speed 50 : Low speed
 
-names_step_3            = ['r_th_adduction','r_th_flexion','r_ix_flexion','r_middle_flexion','r_ring_ltl_flexion'] # Names of all the joints to move. Step 3 will be to open each finger
+names_step_3            = ['l_th_adduction','l_th_flexion','l_ix_flexion','l_middle_flexion','l_ring_ltl_flexion'] # Names of all the joints to move. Step 3 will be to open each finger
 target_positions_step_3 = [0, 0, 0, 0, 0]                                                          # Minimum position value : open position
 target_speeds_step_3    = [10, 10, 10, 10, 10]                                                      # Speed 10 : very low speed
 
@@ -66,22 +66,22 @@ def buildSpeedPosMsg(names,target_positions,target_speeds):
 # Will fill up the joint_list with each LoneJoint messages that are received that interests us. (i.e thumb adduction, thumb flexion, index flexion and ring/little flexion)
 def jointsCallback(joints_data):
     for joint in joints_data.joints:
-        if joint.name == 'r_th_adduction':
+        if joint.name == 'l_th_adduction':
             joint_list[0] = joint
-        if joint.name == 'r_th_flexion':
+        if joint.name == 'l_th_flexion':
             joint_list[1] = joint
-        if joint.name == 'r_ix_flexion':
+        if joint.name == 'l_ix_flexion':
             joint_list[2] = joint
-        if joint.name == 'r_middle_flexion':
+        if joint.name == 'l_middle_flexion':
             joint_list[3] = joint
-        if joint.name == 'r_ring_ltl_flexion':
+        if joint.name == 'l_ring_ltl_flexion':
             joint_list[4] = joint
 
 # Callback function called when a message about the main board is published
 # Will update the value of the palm IR sensor
 def mainBoardCallback(main_board_data):
     for board in main_board_data.boards:
-        if board.name == "r_main_board":
+        if board.name == "l_main_board":
             control.IR_sensor_value = board.palm_IR_sensor
     #print("IR Sensor value = %d" % IR_sensor_value)
 
@@ -90,13 +90,13 @@ def mainBoardCallback(main_board_data):
 rospy.init_node('listener', anonymous = True)
 # Subscribe to the Joints Topic to receive AllJoints messages that will be processed by the jointsCallback function
 # Note that the Topic name MUST be 'Joints'
-rospy.Subscriber("R_Joints", AllJoints, jointsCallback)
+rospy.Subscriber("L_Joints", AllJoints, jointsCallback)
 # Subscribe to the Main_Boards Topic to receive AllMainBoards messages that will be processed by the mainBoardCallback function
 # Note that the Topic name MUST be 'Main_Boards'
-rospy.Subscriber('R_Main_Boards', AllMainBoards, mainBoardCallback)
+rospy.Subscriber('L_Main_Boards', AllMainBoards, mainBoardCallback)
 # Initialize a Publisher to the 'speed_position' Topic. This MUST be the name of the topic so that the data can be processed
 # The publisher will publish JointListSetSpeedPos messages
-pub = rospy.Publisher('R_speed_position', JointListSetSpeedPos, queue_size = 10)
+pub = rospy.Publisher('L_speed_position', JointListSetSpeedPos, queue_size = 10)
 
 # Define a function that takes a LoneJoint message instance in argument
 # It will publish a message to that joint to set its target position to its present position

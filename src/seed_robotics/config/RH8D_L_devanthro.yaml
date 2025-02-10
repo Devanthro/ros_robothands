@@ -1,0 +1,15 @@
+baudrate: 1000000
+port: "/dev/ttySeedHandLeft"
+# port: "/dev/ttyUSB1"
+frequency: 50
+joint_mapping: {
+ l_main_board: 30,
+ l_w_rotation: 31,
+ l_w_adduction: 32,
+ l_w_flexion: 33,
+ l_th_adduction: 34,
+ l_th_flexion: 35,
+ l_ix_flexion: 36,
+ l_middle_flexion: 37,
+ l_ring_ltl_flexion: 38,
+}

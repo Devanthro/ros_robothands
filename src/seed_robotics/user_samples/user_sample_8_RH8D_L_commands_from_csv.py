@@ -12,11 +12,11 @@ from seed_robotics.msg import *
 rospy.init_node('CSV_commands', anonymous = True)
 # Initialize a Publisher to the 'speed_position' Topic. This must be the name of the topic so that the data can be processed
 # The publisher will publish JointListSetSpeedPos messages
-pub = rospy.Publisher('R_speed_position', JointListSetSpeedPos, queue_size = 10)
+pub = rospy.Publisher('L_speed_position', JointListSetSpeedPos, queue_size = 10)
 # Initialize a list of 8 JointSetSpeedPos messages that will be filled with data to send
 joint_message_list = [JointSetSpeedPos() for i in range (8)]
 # Declaring a list to store the names of the joints we want to send command to
-joint_names = ['r_w_rotation','r_w_adduction','r_w_flexion','r_th_adduction','r_th_flexion','r_ix_flexion','r_middle_flexion','r_ring_ltl_flexion']
+joint_names = ['l_w_rotation','l_w_adduction','l_w_flexion','l_th_adduction','l_th_flexion','l_ix_flexion','l_middle_flexion','l_ring_ltl_flexion']
 # Declaring a list to be filled with the target positions read
 target_position_list = []
 
