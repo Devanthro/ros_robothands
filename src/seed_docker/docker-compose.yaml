@@ -1,0 +1,16 @@
+services:
+  tcp_connector_noetic:
+    image: tcp_connector_noetic:0.4
+    container_name: kind_lovelace
+    privileged: true
+    network_mode: host
+    volumes:
+      - /home/alice/workspace/ros_robothands:/workspace/ros_robothands
+      - /dev:/dev
+      - /run/udev:/run/udev:ro
+    devices:
+      - /dev/ttySeedHandLeft:/dev/ttySeedHandLeft
+      - /dev/ttySeedHandRight:/dev/ttySeedHandRight
+    tty: true
+    stdin_open: true
+    command: ["bash"]
